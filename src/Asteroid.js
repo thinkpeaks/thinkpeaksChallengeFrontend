@@ -14,7 +14,8 @@ export default class Asteroid {
     this.score = (80/this.radius)*5;
     this.create = args.create;
     this.addScore = args.addScore;
-    this.vertices = asteroidVertices(8, args.size)
+    this.vertices = asteroidVertices(8, args.size);
+    this.specialGuest = args.specialGuest;
   }
 
   destroy(){
@@ -49,7 +50,8 @@ export default class Asteroid {
             y: randomNumBetween(-10, 20)+this.position.y
           },
           create: this.create.bind(this),
-          addScore: this.addScore.bind(this)
+          addScore: this.addScore.bind(this),
+          specialGuest:this.specialGuest
         });
         this.create(asteroid, 'asteroids');
       }
@@ -57,6 +59,12 @@ export default class Asteroid {
   }
 
   render(state){
+
+    let asteroidColor="#FFF";
+    if(this.specialGuest){
+      asteroidColor="#dd0018"
+    }
+
     // Move
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -81,7 +89,7 @@ export default class Asteroid {
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.strokeStyle = '#FFF';
+    context.strokeStyle = asteroidColor;
     context.lineWidth = 2;
     context.beginPath();
     context.moveTo(0, -this.radius);

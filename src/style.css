@@ -67,3 +67,51 @@ button:hover{
   background-color: #ffffff;
   color: #000000;
 }
+.splash{
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+}
+.splash a{
+  color:white;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+ul li{
+  list-style: none;
+}
+input{
+  margin:5px;
+  line-height: 30px;
+}
+
+input[type=input]{
+  margin:5px;
+  line-height: 30px;
+  width: 100%;
+}
+ .hidden{
+   display: none;
+ }
+input[type=checkbox] {
+
+transform: scale(1.5);
+  margin-right: 15px;
+}
+button{
+  margin-top:20px;
+}
+
+.red{
+  color:red;
+}
+.blue{
+  color:blue;
+}

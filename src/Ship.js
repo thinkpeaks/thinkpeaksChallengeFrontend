@@ -72,6 +72,10 @@ export default class Ship {
   }
 
   render(state){
+
+
+
+
     // Controls
     if(state.keys.up){
       this.accelerate(1);
