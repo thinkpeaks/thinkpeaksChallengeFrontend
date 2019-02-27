@@ -4,14 +4,7 @@ import Ship from './Ship';
 import Asteroid from './Asteroid';
 import {randomNumBetweenExcluding} from './helpers'
 import {api} from './restApi'
-
-
-const anonymousChallenger = {
-  nickName: 'JohnDoe',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'john@example.com',
-}
+import {settings} from './settings'
 
 const KEY = {
   LEFT: 37,
@@ -26,9 +19,12 @@ const KEY = {
 
 export class Reacteroids extends Component {
   constructor() {
+
+
+
     super();
     this.state = {
-      challenger: anonymousChallenger,
+      challenger: settings.anonymousChallenger,
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -239,6 +235,7 @@ export class Reacteroids extends Component {
   }
 
   defineChallenger(challenger) {
+    this.getHighScores();
 
     this.setState({
       challenger: challenger,
@@ -253,6 +250,15 @@ export class Reacteroids extends Component {
 
   }
 
+  getHighScores(){
+    let highScore= api.custom('highscores').get().then((response) =>{
+      console.log(response)
+      return response
+    });
+
+    console.log(highScore)
+
+  }
 
   postScore(){
 
