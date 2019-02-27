@@ -22,6 +22,7 @@ export default class SpalshPage extends Component {
 
       else {
         this.props.defineChallenger({
+          nickName: this.refs.nickName.value,
           firstName: this.refs.firstName.value,
           lastName: this.refs.lastName.value,
           email: this.refs.email.value,
@@ -45,7 +46,7 @@ export default class SpalshPage extends Component {
       }
       if (this.state.specialGuest) {
         message =
-          <p ref="message" className={"blue"}>Well done luke! 2000 extra points will be credited to your score!<br/> Now
+            <p ref="message" className={"blue"}>Well done luke! 2000 extra points will be credited to your score!<br/> Now
             please fill the form with real values"</p>;
 
 
@@ -87,7 +88,19 @@ export default class SpalshPage extends Component {
                   for recruitement purpose.</p>
 
                 <div className="container-fluid">
+
                   <div className="row">
+                    <div className="col-md-3"></div>
+
+                    <div className="col-md-6">
+                      <label className="hidden" htmlFor="firstname">First name</label>
+                      <input ref={"nickName"} type="input" name="nickname" id="nickname" placeholder={"Nick name"}/><br/>
+                    </div>
+                    <div className="col-md-3"></div>
+
+
+                  </div>
+                    <div className="row">
 
                     <div className="col-md-6">
                       <label className="hidden" htmlFor="firstname">First name</label>
@@ -134,6 +147,7 @@ export default class SpalshPage extends Component {
         </form>
 
 
+        <i className="fab fa-github"></i>
       </div>
     )
   }

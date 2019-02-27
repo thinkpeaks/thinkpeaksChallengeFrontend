@@ -5,6 +5,7 @@ import Asteroid from './Asteroid';
 import {randomNumBetweenExcluding} from './helpers'
 
 const anonymousChallenger = {
+  nickName: 'JohnDoe',
   firstName: 'John',
   lastName: 'Doe',
   email: 'john@example.com',
