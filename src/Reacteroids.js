@@ -215,7 +215,7 @@ export class Reacteroids extends Component {
       initializedGame: true,
     });
 
-    this.startGame();
+   // this.startGame();
 
   }
 
