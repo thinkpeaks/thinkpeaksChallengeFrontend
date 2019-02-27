@@ -12,7 +12,7 @@ export default class SpalshPage extends Component {
 
   handleSubmit(e) {
 
-    if (this.refs.firstName.value == "" || this.refs.lastName.value == "" || !this.refs.privacy.checked || !validateEmail(this.refs.email.value)) {
+    if (this.refs.nickName.value == "" ||this.refs.firstName.value == "" || this.refs.lastName.value == "" || !this.refs.privacy.checked || !validateEmail(this.refs.email.value)) {
       this.setState({message: "Please fill the form correctly to play"})
     } else {
       if (isSpecialGuest(this.refs.firstName.value, this.refs.lastName.value)) {
