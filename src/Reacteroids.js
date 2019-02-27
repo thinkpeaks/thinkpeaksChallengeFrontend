@@ -3,6 +3,8 @@ import SplashPage from './SplashPage';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import {randomNumBetweenExcluding} from './helpers'
+import {api} from './restApi'
+
 
 const anonymousChallenger = {
   nickName: 'JohnDoe',
@@ -48,6 +50,7 @@ export class Reacteroids extends Component {
       initializedGame: false,
       initialScore: 0,
       specialGuest: false,
+      highScoreTable: null
 
     }
     this.ship = [];
@@ -224,6 +227,8 @@ export class Reacteroids extends Component {
       inGame: false,
     });
 
+    this.postScore();
+
     // Replace top score
     if (this.state.currentScore > this.state.topScore) {
       this.setState({
@@ -245,6 +250,22 @@ export class Reacteroids extends Component {
     }
     // Stop using that buddy
    // this.startGame();
+
+  }
+
+
+  postScore(){
+
+    let score={
+      nickName:this.state.challenger.nickName,
+      firstName:this.state.challenger.firstName,
+      lastName:this.state.challenger.lastName,
+      email:this.state.challenger.email,
+      isSpecialGuest:this.state.specialGuest,
+      score:this.state.currentScore,
+    }
+
+    api.all('scores').post(score);
 
   }
 
