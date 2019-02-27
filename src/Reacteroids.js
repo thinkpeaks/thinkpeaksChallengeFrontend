@@ -243,7 +243,8 @@ export class Reacteroids extends Component {
       this.addScore(2000)
 
     }
-    this.startGame();
+    // Stop using that buddy
+   // this.startGame();
 
   }
 
