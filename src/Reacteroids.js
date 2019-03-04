@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import SplashPage from './SplashPage';
 import Ship from './Ship';
 import Asteroid from './Asteroid';
+import HighScoreTable from './HighScoreTable';
 import {randomNumBetweenExcluding} from './helpers'
 import {api} from './restApi'
 import {settings} from './settings'
+import _ from 'lodash';
 
 const KEY = {
   LEFT: 37,
@@ -19,9 +21,6 @@ const KEY = {
 
 export class Reacteroids extends Component {
   constructor() {
-
-
-
     super();
     this.state = {
       challenger: settings.anonymousChallenger,
@@ -42,12 +41,12 @@ export class Reacteroids extends Component {
       asteroidCount: 3,
       currentScore: 0,
       topScore: localStorage['topscore'] || 0,
+      highScore: 0,
       inGame: false,
       initializedGame: false,
       initialScore: 0,
       specialGuest: false,
       highScoreTable: null
-
     }
     this.ship = [];
     this.asteroids = [];
@@ -77,17 +76,21 @@ export class Reacteroids extends Component {
     });
   }
 
-
   componentDidUpdate(prevProps, prevState) {
+
     if (this.state.initializedGame) {
       if (this.state.initializedGame !== prevState.initializedGame)
         this.startGame();
-
     }
 
+    if (this.state.highScoreTable === null) {
+      this.setState({highScoreTable: false});
+      this.getHighScores();
+
+    }
     if (this.state.challenger.lastName !== prevState.challenger.lastName) {
       if (this.state.challenger.lastName !== "Doe") {
-        this.setState({initializedGame:true});
+        this.setState({initializedGame: true});
       }
     }
 
@@ -100,7 +103,6 @@ export class Reacteroids extends Component {
 
     const context = this.refs.canvas.getContext('2d');
     this.setState({context: context});
-
 
     requestAnimationFrame(() => {
       this.update()
@@ -162,7 +164,7 @@ export class Reacteroids extends Component {
   addScore(points) {
     if (this.state.inGame) {
       this.setState({
-        currentScore: this.state.currentScore + points,
+        currentScore: this.state.currentScore + this.getCoefficient() * points,
       });
     }
   }
@@ -202,40 +204,51 @@ export class Reacteroids extends Component {
       specialGuest: false,
       initializedGame: false,
       initialScore: 0,
-      challenger: anonymousChallenger
+      challenger: settings.anonymousChallenger,
+      topScore: 0
     });
+    localStorage['topscore'] = 0;
 
   }
 
   initializedGame() {
+
 
     this.setState({
       inGame: true,
       initializedGame: true,
     });
 
-   // this.startGame();
+  }
+
+  getCoefficient() {
+    let coeficient = 1;
+
+    if (this.ship[0].position.x <= this.state.screen.width / 3 & this.ship[0].position.y <= this.state.screen.height / 3) {
+      console.log('Yeah! You stepped out of your comfort zone and you\'ll be rewarded for that!')
+      coeficient = 2;
+    }
+    return coeficient;
 
   }
 
   gameOver() {
+    this.postScore();
+
     this.setState({
       inGame: false,
     });
 
-    this.postScore();
 
     // Replace top score
     if (this.state.currentScore > this.state.topScore) {
       this.setState({
         topScore: this.state.currentScore,
       });
-      localStorage['topscore'] = this.state.currentScore;
     }
   }
 
   defineChallenger(challenger) {
-    this.getHighScores();
 
     this.setState({
       challenger: challenger,
@@ -245,33 +258,63 @@ export class Reacteroids extends Component {
       this.addScore(2000)
 
     }
-    // Stop using that buddy
-   // this.startGame();
-
+    
   }
 
-  getHighScores(){
-    let highScore= api.custom('highscores').get().then((response) =>{
-      console.log(response)
-      return response
+  getHighScores() {
+    let highScore = api.custom('highscores').get().then((response) => {
+      let results = [];
+
+      let responseReturn = response.body();
+
+      responseReturn.forEach(function (element) {
+        results.push(element.data())
+      });
+
+      this.setState({highScoreTable: results})
+      this.getHighestScore();
+      return results;
+
     });
 
-    console.log(highScore)
 
   }
 
-  postScore(){
+  getHighestScore() {
+    let highScoreTable = _.cloneDeep(this.state.highScoreTable);
 
-    let score={
-      nickName:this.state.challenger.nickName,
-      firstName:this.state.challenger.firstName,
-      lastName:this.state.challenger.lastName,
-      email:this.state.challenger.email,
-      isSpecialGuest:this.state.specialGuest,
-      score:this.state.currentScore,
+    if (highScoreTable === false || highScoreTable === null) {
+      return "";
+    }
+    else {
+      let higestScoreParticipation = highScoreTable.sort((a, b) => {
+        return b.position - a.position
+      }).pop();
+      if (typeof higestScoreParticipation !== "undefined") {
+
+        this.setState({highScore: higestScoreParticipation.score})
+        return higestScoreParticipation.score;
+      }
+    }
+    return '';
+
+  }
+
+  postScore() {
+
+    let score = {
+      nickName: this.state.challenger.nickName,
+      firstName: this.state.challenger.firstName,
+      lastName: this.state.challenger.lastName,
+      email: this.state.challenger.email,
+      isSpecialGuest: this.state.specialGuest,
+      score: this.state.currentScore,
     }
 
-    api.all('scores').post(score);
+    api.all('scores').post(score).then(
+      () => {
+        this.getHighScores()
+      });
 
   }
 
@@ -352,18 +395,26 @@ export class Reacteroids extends Component {
     let endgame;
     let message;
     let canvas;
+    let ScoreMessage;
 
     if (this.state.currentScore <= 0) {
-      message = '0 points... So sad.';
-    } else if (this.state.currentScore >= this.state.topScore) {
-      message = 'Top score with ' + this.state.currentScore + ' points. Woo!';
-    } else {
-      message = this.state.currentScore + ' Points though :)'
+      ScoreMessage = '0 points... So sad.';
+    }
+    else {
+      if (this.state.currentScore >= this.state.highScore) {
+        ScoreMessage = '' + this.state.currentScore + ' points. Numero Uno! Woo!';
+
+      }
+      if (this.state.currentScore >= this.state.topScore & this.state.topScore != 0) {
+        ScoreMessage = 'Your best score with ' + this.state.currentScore + ' points. Nice!';
+      } else {
+        ScoreMessage = this.state.currentScore + ' Points though :)'
+      }
     }
 
     if (!this.state.initializedGame) {
       startgame = (<SplashPage
-                               defineChallenger={this.defineChallenger.bind(this)} makeSpecialGuest={this.makeSpecialGuest.bind(this)} />
+          defineChallenger={this.defineChallenger.bind(this)} makeSpecialGuest={this.makeSpecialGuest.bind(this)}/>
 
       )
     }
@@ -371,18 +422,29 @@ export class Reacteroids extends Component {
     if (!this.state.inGame & this.state.initializedGame) {
       endgame = (
         <div className="endgame">
-          <p>Game over, man!</p>
-          <p>{message}</p>
-          <button
-            onClick={this.startGame.bind(this)}>
-            try again?
-          </button>
-          <br/>
+          <h1>Game over, man!</h1>
+          <div className={"row"}>
 
-          <button
-            onClick={this.reInitializedGame.bind(this)}>
-            Start as a new challenger !
-          </button>
+            <div className={"col-lg-6"}>
+
+              <HighScoreTable highScoreTable={this.state.highScoreTable}/>
+            </div>
+
+
+            <div className={"col-lg-6"}>
+              <h2>{ScoreMessage}</h2>
+              <button
+                onClick={this.startGame.bind(this)}>
+                try again?
+              </button>
+
+              <button
+                onClick={this.reInitializedGame.bind(this)}>
+                Start as a new challenger !
+              </button>
+            </div>
+          </div>
+
         </div>
       )
     }
@@ -392,7 +454,7 @@ export class Reacteroids extends Component {
         {startgame}
         {endgame}
         <span className="score current-score">Score: {this.state.currentScore}</span>
-        <span className="score top-score">Top Score: {this.state.topScore}</span>
+        <span className="score top-score">Top Score: {this.state.highScore}<br/><span className={'small'}>Your top Score: {this.state.topScore}</span></span>
         <span className="controls">
           <h1>Think Peaks Asteroid Game Challenge</h1>
           Use [←][↑][↓][→] to MOVE. [SPACE] to SHOOT !

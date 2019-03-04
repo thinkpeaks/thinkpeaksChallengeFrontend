@@ -46,7 +46,7 @@ export default class SpalshPage extends Component {
       }
       if (this.state.specialGuest) {
         message =
-            <p ref="message" className={"blue"}>Well done luke! 2000 extra points will be credited to your score!<br/> Now
+          <p ref="message" className={"blue"}>Well done luke! 2000 extra points will be credited to your score!<br/> Now
             please fill the form with real values"</p>;
 
 
@@ -94,13 +94,14 @@ export default class SpalshPage extends Component {
 
                     <div className="col-md-6">
                       <label className="hidden" htmlFor="firstname">First name</label>
-                      <input ref={"nickName"} type="input" name="nickname" id="nickname" placeholder={"Nick name"}/><br/>
+                      <input ref={"nickName"} type="input" name="nickname" id="nickname"
+                             placeholder={"Nick name"}/><br/>
                     </div>
                     <div className="col-md-3"></div>
 
 
                   </div>
-                    <div className="row">
+                  <div className="row">
 
                     <div className="col-md-6">
                       <label className="hidden" htmlFor="firstname">First name</label>
