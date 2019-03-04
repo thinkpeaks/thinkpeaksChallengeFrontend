@@ -258,7 +258,7 @@ export class Reacteroids extends Component {
       this.addScore(2000)
 
     }
-    
+
   }
 
   getHighScores() {
@@ -396,6 +396,7 @@ export class Reacteroids extends Component {
     let message;
     let canvas;
     let ScoreMessage;
+    let footer;
 
     if (this.state.currentScore <= 0) {
       ScoreMessage = '0 points... So sad.';
@@ -415,8 +416,14 @@ export class Reacteroids extends Component {
     if (!this.state.initializedGame) {
       startgame = (<SplashPage
           defineChallenger={this.defineChallenger.bind(this)} makeSpecialGuest={this.makeSpecialGuest.bind(this)}/>
-
       )
+    }
+
+    if(!this.state.initializedGame){
+      footer=       <div id="footer">
+        <a href={"https://github.com/thinkpeaks/thinkpeaksChallengeFrontend"} target={"_blank"}> <i className="fab fa-github"></i> Fork me on Github</a>
+      </div>
+
     }
 
     if (!this.state.inGame & this.state.initializedGame) {
@@ -463,6 +470,9 @@ export class Reacteroids extends Component {
                 width={this.state.screen.width * this.state.screen.ratio}
                 height={this.state.screen.height * this.state.screen.ratio}
         />
+
+        {footer}
+
       </div>
     );
   }

@@ -121,3 +121,21 @@ button{
 table{
   width: 100%;
 }
+
+
+#footer {
+  display: block;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1;
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.6;
+}
+#footer a {
+  color:white;
+  font-size:16px;
+  text-decoration: none;
+}
