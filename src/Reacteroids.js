@@ -7,6 +7,8 @@ import {randomNumBetweenExcluding} from './helpers'
 import {api} from './restApi'
 import {settings} from './settings'
 import _ from 'lodash';
+import sha512 from 'js-sha512';
+import Base64 from 'js-base64';
 
 const KEY = {
   LEFT: 37,
@@ -18,6 +20,7 @@ const KEY = {
   SPACE: 32,
   ENTER: 13
 };
+
 
 export class Reacteroids extends Component {
   constructor() {
@@ -46,7 +49,8 @@ export class Reacteroids extends Component {
       initializedGame: false,
       initialScore: 0,
       specialGuest: false,
-      highScoreTable: null
+      highScoreTable: null,
+      token: ""
     }
     this.ship = [];
     this.asteroids = [];
@@ -175,6 +179,10 @@ export class Reacteroids extends Component {
     if (typeof this.state.challenger !== "undefined") {
     }
 
+
+    this.getToken();
+
+
     this.setState({
       inGame: true,
       currentScore: this.state.initialScore
@@ -259,6 +267,23 @@ export class Reacteroids extends Component {
 
     }
 
+
+  }
+
+  getToken() {
+
+    let email = this.state.challenger.email;
+    let emailInBase64 = btoa(email)
+
+    let token = api.one('token', emailInBase64).get().then((response) => {
+      let results = [];
+
+      let responseReturn = response.body().data();
+
+      this.setState({token: responseReturn.token})
+
+
+    });
   }
 
   getHighScores() {
@@ -302,6 +327,7 @@ export class Reacteroids extends Component {
 
   postScore() {
 
+
     let score = {
       nickName: this.state.challenger.nickName,
       firstName: this.state.challenger.firstName,
@@ -309,6 +335,7 @@ export class Reacteroids extends Component {
       email: this.state.challenger.email,
       isSpecialGuest: this.state.specialGuest,
       score: this.state.currentScore,
+      token: sha512(this.state.token + settings.frontendSecret),
     }
 
     api.all('scores').post(score).then(
@@ -419,9 +446,10 @@ export class Reacteroids extends Component {
       )
     }
 
-    if(!this.state.initializedGame){
-      footer=       <div id="footer">
-        <a href={"https://github.com/thinkpeaks/thinkpeaksChallengeFrontend"} target={"_blank"}> <i className="fab fa-github"></i> Fork me on Github</a>
+    if (!this.state.initializedGame) {
+      footer = <div id="footer">
+        <a href={"https://github.com/thinkpeaks/thinkpeaksChallengeFrontend"} target={"_blank"}> <i
+          className="fab fa-github"></i> Fork me on Github</a>
       </div>
 
     }
