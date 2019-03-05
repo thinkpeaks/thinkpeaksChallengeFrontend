@@ -31,9 +31,11 @@ export default class HighScoreTable extends Component {
     return (
       <div id={"high-score-table"}>
 
-        <h2><i className={"fa fa-trophy"}/> High Score</h2>
+        <h2><i className={"fa fa-trophy"}/> High Scores</h2>
         <table>
+          <tbody>
           {tableRow}
+          </tbody>
         </table>
 
       </div>

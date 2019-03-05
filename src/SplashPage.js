@@ -74,14 +74,14 @@ export default class SpalshPage extends Component {
       <h3>There is no such challenge without rules!</h3>
       <ul>
         <li>Explode Asteroids to gain points</li>
-        <li>Points vary depending on asteroid size (the smaller the higher)</li>
+        <li>Points received depends on asteroid size (the smaller the higher)</li>
         <li>You will lose 5 points for every 20 lost bullets shooted</li>
         <li>Special tricks may apply in the game (inspect <a href={"https://thinkpeaks.com"}
                                                            target={"_blank"}>thinkpeaks.com</a>)
         </li>
         <li>The person with the highest score will win the challenge</li>
         <li>You have the right to cheat</li>
-        <li>Challenge end on 9 march 2019 at 09:00 Brussels Time</li>
+        <li>Challenge end on 8 march 2019 at 09:00 Brussels Time</li>
       </ul>
 
       <button

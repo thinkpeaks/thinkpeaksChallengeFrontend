@@ -434,7 +434,7 @@ export class Reacteroids extends Component {
 
       }
       if (this.state.currentScore >= this.state.topScore & this.state.topScore != 0) {
-        ScoreMessage = 'Your best score with ' + this.state.currentScore + ' points. Nice!';
+        ScoreMessage = 'Your best score is ' + this.state.currentScore + ' points. Nice!';
       } else {
         ScoreMessage = this.state.currentScore + ' Points though :)'
       }
@@ -470,7 +470,7 @@ export class Reacteroids extends Component {
               <h2>{ScoreMessage}</h2>
               <button
                 onClick={this.startGame.bind(this)}>
-                try again?
+                Try again?
               </button>
 
               <button
