@@ -79,9 +79,8 @@ export default class SpalshPage extends Component {
         <li>Special tricks may apply in the game (inspect <a href={"https://thinkpeaks.com"}
                                                            target={"_blank"}>thinkpeaks.com</a>)
         </li>
-        <li>The person with the highest score will win the challenge</li>
         <li>You have the right to cheat</li>
-        <li>Challenge end on 8 march 2019 at 09:00 Brussels Time</li>
+        <li className={red}> Special Kudos to vovodar who win the challenge for 2019 !</li>
       </ul>
 
       <button
