@@ -80,7 +80,8 @@ export default class SpalshPage extends Component {
                                                            target={"_blank"}>thinkpeaks.com</a>)
         </li>
         <li>You have the right to cheat</li>
-        <li className={"red"}>Applause for vovodar who win the challenge for February 2019 with 2147483647 points!</li>
+
+        {/* <li className={"red"}>Applause for vovodar who win the challenge for February 2019 with 2147483647 points!</li> */}
       </ul>
 
       <button
