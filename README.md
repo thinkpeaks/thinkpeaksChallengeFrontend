@@ -1,7 +1,6 @@
 # Think Peaks Asteroid Challenge	
 Hi !
 Welcome to Think Peaks asteroid challenge.
-The challenge is simple: Get the higest points to win a Nintendo classic Mini.
 
 ## There is no such challenge without rules
 - Explode Asteroids to gain points
@@ -32,10 +31,8 @@ Copy src/settings.js.example to  src/settings.js.
 Adapt value to your local instance.
 
 ```sh
-git init
-git add remote origin git@github.com:thinkpeaks/thinkpeaksChallengeFrontend.git
-git fetch
-git pull origin master
+git clone  git@github.com:thinkpeaks/thinkpeaksChallengeFrontend.git
+cd thinkpeaksChallengeFrontend
 mv  src/settings.js.example to  src/settings.js
 nano  src/settings.js
 ```
