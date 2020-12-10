@@ -39,6 +39,7 @@ git pull origin master
 mv  src/settings.js.example to  src/settings.js
 nano  src/settings.js
 ```
+Note that the frontend secret should be the same that in the Backend sources.
 
 Install the dependencies and devDependencies and start the server.
 
@@ -51,10 +52,18 @@ $ npm start
 Open your browser and go to localhost:3000
 
 
-### Todos
+### Challenges
 
- - Write  Tests
- - Fetch personal highscore of specific email adresse
+
+ - **Challenge A**: Hack the game and make the highest score here: https://challenge.thinkpeaks.com/
+ - **Challenge B**: Write Tests
+ - **Challenge C**: Fetch personal highscore of specific email adresse
+ - **Challenge E**: upgrade to React 16
+ - **Challenge F**: Improve the 'Your top Score: ' display with real time value
+ - **Challenge G**: Convert state to redux
+ - **Challenge H**: Integrate PushBullet Services
+ - **Challenge I**: Surprise us !
+
 
 ### Credits
 All the work is derived from https://github.com/chriz001/Reacteroids

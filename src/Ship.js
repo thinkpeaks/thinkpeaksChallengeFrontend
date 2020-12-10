@@ -111,17 +111,24 @@ export default class Ship {
     else if(this.position.x < 0) this.position.x = state.screen.width;
     if(this.position.y > state.screen.height) this.position.y = 0;
     else if(this.position.y < 0) this.position.y = state.screen.height;
-    
-
-    var img = new Image();
-    img.src = "https://s3.eu-west-3.amazonaws.com/thinkpeaks-static-content/thinkpeaksChallenge/LogoSquareNanoWhite2018.svg";
 
     // Draw
     const context = state.context;
     context.save();
     context.translate(this.position.x, this.position.y);
     context.rotate(this.rotation * Math.PI / 180);
-    context.drawImage(img, -12.5, -15);
+    context.strokeStyle = '#ffffff';
+    context.fillStyle = '#000000';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.moveTo(0, -15);
+    context.lineTo(10, 10);
+    context.lineTo(5, 7);
+    context.lineTo(-5, 7);
+    context.lineTo(-10, 10);
+    context.closePath();
+    context.fill();
+    context.stroke();
     context.restore();
   }
 }
